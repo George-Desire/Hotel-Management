@@ -2,10 +2,7 @@ const express = require ('express');
 const mongoose = require('mongoose');
 const app = express();
 
-mongoose.connect('mongodb+srv://georgedesire06:YeH1dRqfjuhn7rZN@cluster0.hdxcuew.mongodb.net/', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
+mongoose.connect('mongodb+srv://georgedesire06:YeH1dRqfjuhn7rZN@cluster0.hdxcuew.mongodb.net/', {}).then(() => {
   console.log('Connected to MongoDB');
 }).catch((error) => {
   console.log('Error connecting to MongoDB:', error);
@@ -133,7 +130,7 @@ app.get('/api/v1/rooms/:roomId', async (req, res) => {
   }
 });
 
-const port = 3000;
+const port = 3250;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
