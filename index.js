@@ -142,7 +142,7 @@ app.get('/api/v1/rooms/:roomId', async (req, res) => {
   }
 });
 
-const port = 3250;
+const port = 3435;
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
