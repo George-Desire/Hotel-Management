@@ -1,8 +1,15 @@
+require('dotenv').config();
 const express = require ('express');
 const mongoose = require('mongoose');
 const app = express();
+const User = require('./user')
+const authMiddleware = require('./authMiddleware');
+const authzMiddleware = require('./authzMiddleware');
+const authRoutes = require('./authRoutes');
+const JWT_SECRET = process.env.JWT_SECRET;
+const {authSchema} = require ('./val_schema')
 
-mongoose.connect('mongodb+srv://georgedesire06:YeH1dRqfjuhn7rZN@cluster0.hdxcuew.mongodb.net/', {}).then(() => {
+mongoose.connect('mongodb+srv://georgedesire06:YeH1dRqfjuhn7rZN@cluster0.hdxcuew.mongodb.net/?ssl=true', {}).then(() => {
   console.log('Connected to MongoDB');
 }).catch((error) => {
   console.log('Error connecting to MongoDB:', error);
@@ -26,6 +33,11 @@ const roomSchema = new mongoose.Schema({
 const Room = mongoose.model('Room', roomSchema);
 
 app.use(express.json());
+app.use('/auth', authRoutes);
+
+app.get('/admin-only', authMiddleware, authzMiddleware('admin'), (req, res) => {
+  res.json({ message: 'This route is accessible only to admin users' });
+});
 
 // Create RoomType
 app.post('/api/v1/room-types', async (req, res) => {
